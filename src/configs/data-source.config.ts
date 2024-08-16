@@ -7,7 +7,8 @@ import {
   DB_PASSWORD,
   DB_NAME,
 } from "../environment/variable.env";
-const entities = [Book];
+import { User } from "../models/user.model";
+const entities = [Book, User];
 
 export const AppDataSource = new DataSource({
   type: "postgres",

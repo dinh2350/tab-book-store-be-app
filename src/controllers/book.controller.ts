@@ -7,18 +7,36 @@ import {
   httpDelete,
   requestParam,
   requestBody,
+  queryParam,
+  response,
+  request,
 } from "inversify-express-utils";
 import { BookService } from "../services/book.service";
 import { Book } from "../models/book.model";
+import { ORDER_ENUM } from "../common/enums/order.enum";
+import { GetQueryParams } from "../common/types/get-query-params.type";
+import { parseIntUtil } from "../utils/parse-int.util";
 
 @controller("/books")
 export class BookController {
   constructor(private bookService: BookService) {}
 
   @httpGet("/")
-  public async getAllBooks(req: Request, res: Response): Promise<void> {
+  public async getAllBooks(
+    @response() res: Response,
+    @queryParam("page") page?: string,
+    @queryParam("limit") limit?: string,
+    @queryParam("sortBy") sortBy?: string,
+    @queryParam("order") order?: ORDER_ENUM
+  ): Promise<void> {
+    const queryParam: GetQueryParams = {
+      page: parseIntUtil(page),
+      limit: parseIntUtil(limit),
+      sortBy,
+      order,
+    };
     try {
-      const books = await this.bookService.getAllBooks();
+      const books = await this.bookService.getAllBooks(queryParam);
       res.json(books);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch books" });

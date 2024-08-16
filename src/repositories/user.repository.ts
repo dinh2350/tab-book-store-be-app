@@ -1,26 +1,26 @@
 import { injectable } from "inversify";
 import { Repository } from "typeorm";
-import { Book } from "../models/book.model";
+import { User } from "../models/user.model";
 import { AppDataSource } from "../configs/data-source.config";
 import { GetQueryParams } from "../common/types/get-query-params.type";
 import { FindResponseType } from "../common/types/http.type";
 
 @injectable()
-export class BookRepository {
-  private repository: Repository<Book>;
+export class UserRepository {
+  private repository: Repository<User>;
 
   constructor() {
-    this.repository = AppDataSource.getRepository(Book);
+    this.repository = AppDataSource.getRepository(User);
   }
 
-  async findAll(queryParam: GetQueryParams): Promise<FindResponseType<Book[]>> {
-    const { page: page, limit, sortBy, order } = queryParam;
+  async findAll(queryParam: GetQueryParams): Promise<FindResponseType<User[]>> {
+    const { page, limit, sortBy, order } = queryParam;
 
-    const queryBuilder = this.repository.createQueryBuilder("book");
+    const queryBuilder = this.repository.createQueryBuilder("user");
 
     // Apply sorting
-    if (order) {
-      queryBuilder.orderBy(`book.${sortBy}`, order);
+    if (sortBy) {
+      queryBuilder.orderBy(`user.${sortBy}`, order || "ASC"); // Default to 'ASC' if no order is provided
     }
 
     // Apply pagination
@@ -40,16 +40,20 @@ export class BookRepository {
     return { data, total, page, totalPages };
   }
 
-  async findById(id: number): Promise<Book | null> {
+  async findById(id: number): Promise<User | null> {
     return this.repository.findOneBy({ id });
   }
 
-  async create(book: Book): Promise<Book> {
-    return this.repository.save(this.repository.create(book));
+  async findByEmail(email: string): Promise<User | null> {
+    return this.repository.findOneBy({ email });
   }
 
-  async update(id: number, book: Partial<Book>): Promise<Book | null> {
-    await this.repository.update(id, book);
+  async create(user: User): Promise<User> {
+    return this.repository.save(this.repository.create(user));
+  }
+
+  async update(id: number, user: Partial<User>): Promise<User | null> {
+    await this.repository.update(id, user);
     return this.repository.findOneBy({ id });
   }
 
