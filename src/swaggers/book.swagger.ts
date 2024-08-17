@@ -59,6 +59,7 @@ export const bookSwagger = {
     post: {
       tags: ["Book"],
       summary: "Create a new book",
+      security: [{ BearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -116,6 +117,7 @@ export const bookSwagger = {
     },
     put: {
       tags: ["Book"],
+      security: [{ BearerAuth: [] }],
       summary: "Update a book by ID",
       parameters: [
         {
@@ -157,6 +159,7 @@ export const bookSwagger = {
     delete: {
       tags: ["Book"],
       summary: "Delete a book by ID",
+      security: [{ BearerAuth: [] }],
       parameters: [
         {
           name: "id",

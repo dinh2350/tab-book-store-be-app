@@ -16,6 +16,9 @@ import { Book } from "../models/book.model";
 import { ORDER_ENUM } from "../common/enums/order.enum";
 import { GetQueryParams } from "../common/types/get-query-params.type";
 import { parseIntUtil } from "../utils/parse-int.util";
+import { authenticate } from "../middlewares/authenticate.middleware";
+import { rolesGuard } from "../middlewares/authorize.middleware";
+import { USER_ROLES } from "../common/enums/user.enum";
 
 @controller("/books")
 export class BookController {
@@ -61,7 +64,7 @@ export class BookController {
     }
   }
 
-  @httpPost("/")
+  @httpPost("/", authenticate, rolesGuard([USER_ROLES.ADMIN]))
   public async createBook(
     @requestBody() book: Book,
     req: Request,
@@ -76,7 +79,7 @@ export class BookController {
     }
   }
 
-  @httpPut("/:id")
+  @httpPut("/:id", authenticate, rolesGuard([USER_ROLES.ADMIN]))
   public async updateBook(
     @requestParam("id") id: number,
     @requestBody() book: Partial<Book>,
@@ -95,7 +98,7 @@ export class BookController {
     }
   }
 
-  @httpDelete("/:id")
+  @httpDelete("/:id", authenticate, rolesGuard([USER_ROLES.ADMIN]))
   public async deleteBook(
     @requestParam("id") id: number,
     req: Request,

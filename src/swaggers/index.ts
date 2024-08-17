@@ -9,12 +9,14 @@ export const swaggerOptions = {
       title: "Bookstore API",
       version: "1.0.0",
     },
-    paths: {
-      ...bookSwagger,
-      ...userSwagger,
-      ...authSwagger,
-    },
     components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
       schemas: {
         Book: {
           type: "object",
@@ -59,10 +61,11 @@ export const swaggerOptions = {
               nullable: true,
               example: "This is a detailed description of the book.",
             },
-            author: {
+            status: {
               type: "string",
-              description: "The author of the book",
-              example: "John Doe",
+              enum: ["ACTIVE", "INACTIVE"],
+              description: "The status of the user account",
+              example: "ACTIVE",
             },
           },
         },
@@ -90,11 +93,17 @@ export const swaggerOptions = {
               description: "The password of the user",
               example: "password123",
             },
+            role: {
+              type: "string",
+              enum: ["Admin", "User"],
+              description: "The role of the role account",
+              example: "User",
+            },
             status: {
               type: "string",
-              enum: ["Active", "Inactive"],
+              enum: ["ACTIVE", "INACTIVE"],
               description: "The status of the user account",
-              example: "Active",
+              example: "ACTIVE",
             },
             createdBy: {
               type: "integer",
@@ -152,12 +161,12 @@ export const swaggerOptions = {
             email: {
               type: "string",
               description: "The email of the user",
-              example: "johndoe@example.com",
+              example: "john.doe@example.com",
             },
             password: {
               type: "string",
               description: "The password of the user",
-              example: "securepassword",
+              example: "password123",
             },
           },
         },
@@ -194,6 +203,11 @@ export const swaggerOptions = {
           required: ["username", "email", "password"],
         },
       },
+    },
+    paths: {
+      ...bookSwagger,
+      ...userSwagger,
+      ...authSwagger,
     },
   },
   apis: [],
