@@ -15,14 +15,14 @@ export abstract class BaseModel {
     type: "timestamp",
     default: "now()",
   })
-  created_date!: Date;
+  created_date?: Date;
 
   @Column()
   @UpdateDateColumn({
     type: "timestamp",
     default: "now()",
   })
-  last_modified_date!: Date;
+  last_modified_date?: Date;
 
   @Column({
     nullable: true,
@@ -32,12 +32,12 @@ export abstract class BaseModel {
   @Column({
     nullable: true,
   })
-  last_modified_by!: number;
+  last_modified_by?: number;
 
   @Column({
     type: "enum",
     enum: [STATUS_ENUM.ACTIVE, STATUS_ENUM.INACTIVE],
     default: STATUS_ENUM.ACTIVE,
   })
-  status!: STATUS_ENUM;
+  status?: STATUS_ENUM;
 }

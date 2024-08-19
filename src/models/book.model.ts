@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { BOOK_CATEGORIES } from "../common/enums/book.enum";
 import { BaseModel } from "./base.model";
+import { CartItem } from "./cart-item.model";
 
 @Entity({ name: "books" })
 export class Book extends BaseModel {
@@ -28,4 +29,7 @@ export class Book extends BaseModel {
 
   @Column({ type: "text", nullable: true })
   description!: string;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.book)
+  cartItems!: CartItem[];
 }

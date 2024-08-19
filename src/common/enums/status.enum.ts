@@ -1,4 +1,6 @@
 export enum STATUS_ENUM {
   ACTIVE = "ACTIVE",
   INACTIVE = "INACTIVE",
+  DONE = "DONE",
+  CANCELED = "CANCELED",
 }
