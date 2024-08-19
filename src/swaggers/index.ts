@@ -1,5 +1,6 @@
 import { authSwagger } from "./auth.swagger";
 import { bookSwagger } from "./book.swagger";
+import { cartSwagger } from "./cart.swagger";
 import { userSwagger } from "./user.swagger";
 
 export const swaggerOptions = {
@@ -129,6 +130,22 @@ export const swaggerOptions = {
             },
           },
         },
+        AddBookToCartDto: {
+          type: "object",
+          properties: {
+            bookId: {
+              type: "integer",
+              description: "The ID of the book to add to the cart",
+              example: 1,
+            },
+            quantity: {
+              type: "integer",
+              description: "The quantity of the book to add to the cart",
+              example: 1,
+            },
+          },
+          required: ["bookId", "quantity"],
+        },
         PaginatedBooks: {
           type: "object",
           properties: {
@@ -208,6 +225,7 @@ export const swaggerOptions = {
       ...bookSwagger,
       ...userSwagger,
       ...authSwagger,
+      ...cartSwagger,
     },
   },
   apis: [],

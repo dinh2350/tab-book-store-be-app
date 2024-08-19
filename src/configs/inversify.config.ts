@@ -7,6 +7,11 @@ import { UserRepository } from "../repositories/user.repository";
 import { UserController } from "../controllers/user.controller";
 import { AuthController } from "../controllers/auth.controller";
 import { AuthService } from "../services/auth.service";
+import { CartService } from "../services/cart.service";
+import { CartRepository } from "../repositories/cart.repository";
+import { CartController } from "../controllers/cart.controller";
+import { CartItemRepository } from "../repositories/cart-item.repository";
+import { CartItemService } from "../services/cart-item.service";
 
 const container = new Container();
 
@@ -20,5 +25,12 @@ container.bind(UserController).toSelf();
 
 container.bind(AuthController).toSelf();
 container.bind(AuthService).toSelf();
+
+container.bind(CartItemRepository).toSelf();
+container.bind(CartItemService).toSelf();
+
+container.bind(CartService).toSelf();
+container.bind(CartRepository).toSelf();
+container.bind(CartController).toSelf();
 
 export { container };
