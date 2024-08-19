@@ -2,7 +2,7 @@ import { authSwagger } from "./auth.swagger";
 import { bookSwagger } from "./book.swagger";
 import { cartSwagger } from "./cart.swagger";
 import { userSwagger } from "./user.swagger";
-
+import { cartItemPath, cartItemComponent } from "./cart-item.swagger";
 export const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -219,6 +219,7 @@ export const swaggerOptions = {
           },
           required: ["username", "email", "password"],
         },
+        ...cartItemComponent,
       },
     },
     paths: {
@@ -226,6 +227,7 @@ export const swaggerOptions = {
       ...userSwagger,
       ...authSwagger,
       ...cartSwagger,
+      ...cartItemPath,
     },
   },
   apis: [],
