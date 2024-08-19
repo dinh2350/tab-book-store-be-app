@@ -8,7 +8,10 @@ import {
   DB_NAME,
 } from "../environment/variable.env";
 import { User } from "../models/user.model";
-const entities = [Book, User];
+import { Cart } from "../models/cart.model";
+import { CartItem } from "../models/cart-item.model";
+import { Order } from "../models/order.model";
+const entities = [Book, User, Cart, CartItem, Order];
 
 export const AppDataSource = new DataSource({
   type: "postgres",
