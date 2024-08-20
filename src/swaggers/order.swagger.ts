@@ -146,7 +146,7 @@ export const orderSwagger = {
     },
     "/orders/checkout": {
       post: {
-        tags: ["Order"],
+        tags: ["Orders"],
         security: [{ BearerAuth: [] }],
         summary: "Checkout cart",
         description: "Checkout the user's cart",

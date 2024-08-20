@@ -40,7 +40,12 @@ export abstract class BaseModel {
 
   @Column({
     type: "enum",
-    enum: [STATUS_ENUM.ACTIVE, STATUS_ENUM.INACTIVE],
+    enum: [
+      STATUS_ENUM.ACTIVE,
+      STATUS_ENUM.INACTIVE,
+      STATUS_ENUM.DONE,
+      STATUS_ENUM.CANCELED,
+    ],
     default: STATUS_ENUM.ACTIVE,
   })
   status?: STATUS_ENUM;
