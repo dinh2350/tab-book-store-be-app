@@ -1,9 +1,9 @@
 export class CreateCartDto {
-  created_by!: number;
+  createdBy!: number;
 }
 
 export class AddBookToCartDto {
-  userId?: number;
+  createdBy?: number;
   bookId!: number;
   quantity!: number;
 }

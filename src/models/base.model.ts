@@ -12,27 +12,31 @@ export abstract class BaseModel {
 
   @Column()
   @CreateDateColumn({
+    name: "created_date",
     type: "timestamp",
     default: "now()",
   })
-  created_date?: Date;
+  createdDate?: Date;
 
   @Column()
   @UpdateDateColumn({
+    name: "last_modified_date",
     type: "timestamp",
     default: "now()",
   })
-  last_modified_date?: Date;
+  lastModifiedDate?: Date;
 
   @Column({
+    name: "created_by",
     nullable: true,
   })
-  created_by?: number;
+  createdBy?: number;
 
   @Column({
+    name: "last_modified_by",
     nullable: true,
   })
-  last_modified_by?: number;
+  lastModifiedBy?: number;
 
   @Column({
     type: "enum",

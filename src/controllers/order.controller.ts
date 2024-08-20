@@ -19,10 +19,12 @@ import { rolesGuard } from "../middlewares/authorize.middleware";
 import { USER_ROLES } from "../common/enums/user.enum";
 import { OrderService } from "../services/order.service";
 import { Order } from "../models/order.model";
+import { CheckoutCartDto, CreateOrderDto } from "../dtos/order.dto";
+import { attachUserId } from "../middlewares/attach-user-id.middleware";
 
-@controller("/Orders")
+@controller("/orders")
 export class OrderController {
-  constructor(private OrderService: OrderService) {}
+  constructor(private orderService: OrderService) {}
 
   @httpGet("/")
   public async getAllOrders(
@@ -39,7 +41,7 @@ export class OrderController {
       order,
     };
     try {
-      const Orders = await this.OrderService.getAllOrders(queryParam);
+      const Orders = await this.orderService.getAllOrders(queryParam);
       res.json(Orders);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch Orders" });
@@ -53,7 +55,7 @@ export class OrderController {
     res: Response
   ): Promise<void> {
     try {
-      const order = await this.OrderService.getOrderById(id);
+      const order = await this.orderService.getOrderById(id);
       if (order) {
         res.json(order);
       } else {
@@ -66,17 +68,22 @@ export class OrderController {
 
   @httpPost("/", authenticate, rolesGuard([USER_ROLES.ADMIN]))
   public async createOrder(
-    @requestBody() order: Order,
+    @requestBody() order: CreateOrderDto,
     req: Request,
     res: Response
   ): Promise<void> {
     try {
-      const newOrder = await this.OrderService.createOrder(order);
+      const newOrder = await this.orderService.createOrder(order);
       res.status(201).json(newOrder);
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Failed to create Order" });
     }
+  }
+
+  @httpPost("/checkout", authenticate, attachUserId)
+  checkout(@requestBody() body: CheckoutCartDto) {
+    return this.orderService.checkout(body);
   }
 
   @httpPut("/:id", authenticate, rolesGuard([USER_ROLES.ADMIN]))
@@ -87,7 +94,7 @@ export class OrderController {
     res: Response
   ): Promise<void> {
     try {
-      const updatedOrder = await this.OrderService.updateOrder(id, order);
+      const updatedOrder = await this.orderService.updateOrder(id, order);
       if (updatedOrder) {
         res.json(updatedOrder);
       } else {
@@ -105,7 +112,7 @@ export class OrderController {
     res: Response
   ): Promise<void> {
     try {
-      await this.OrderService.deleteOrder(id);
+      await this.orderService.deleteOrder(id);
       res.status(204).end();
     } catch (error) {
       res.status(500).json({ error: "Failed to delete Order" });

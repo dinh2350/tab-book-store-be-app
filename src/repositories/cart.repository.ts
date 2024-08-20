@@ -46,9 +46,13 @@ export class CartRepository {
     return this.repository.findOneBy({ id });
   }
 
-  async findActiveByUser(userId: number) {
+  async findByIdIncludeCartItem(id: number) {
+    return this.repository.findOne({ where: { id }, relations: ["cartItems"] });
+  }
+
+  async findActiveByUser(createdBy: number) {
     return this.repository.findOneBy({
-      created_by: userId,
+      createdBy,
       status: STATUS_ENUM.ACTIVE,
     });
   }

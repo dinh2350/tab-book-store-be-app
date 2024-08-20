@@ -3,6 +3,7 @@ import { bookSwagger } from "./book.swagger";
 import { cartSwagger } from "./cart.swagger";
 import { userSwagger } from "./user.swagger";
 import { cartItemPath, cartItemComponent } from "./cart-item.swagger";
+import { orderSwagger } from "./order.swagger";
 export const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -220,6 +221,7 @@ export const swaggerOptions = {
           required: ["username", "email", "password"],
         },
         ...cartItemComponent,
+        ...orderSwagger.components.schemas,
       },
     },
     paths: {
@@ -228,6 +230,23 @@ export const swaggerOptions = {
       ...authSwagger,
       ...cartSwagger,
       ...cartItemPath,
+      ...orderSwagger.paths,
+    },
+    definitions: {
+      CheckoutCartDto: {
+        type: "object",
+        properties: {
+          cartId: {
+            type: "integer",
+            description: "ID of the cart",
+          },
+          createdBy: {
+            type: "integer",
+            description: "ID of the user who created the cart",
+          },
+        },
+        required: ["cartId", "createdBy"],
+      },
     },
   },
   apis: [],

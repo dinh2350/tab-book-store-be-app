@@ -27,12 +27,16 @@ export class CartService {
     return this.cartRepository.findById(id);
   }
 
+  async findByIdIncludeCartItem(id: number) {
+    return this.cartRepository.findByIdIncludeCartItem(id);
+  }
+
   async createCart(cart: CreateCartDto): Promise<Cart> {
     return this.cartRepository.create(cart);
   }
 
   async addBookToCart({
-    userId,
+    createdBy,
     bookId,
     quantity,
   }: AddBookToCartDto): Promise<Cart> {
@@ -40,11 +44,11 @@ export class CartService {
     const book = await this.bookService.getBookById(bookId);
     if (!book) throw new Error("Book not found");
     // check cart is exist by userId, create cart if not exist
-    if (!userId) throw new Error("User invalid");
-    const cart = await this.cartRepository.findActiveByUser(userId);
+    if (!createdBy) throw new Error("User invalid");
+    const cart = await this.cartRepository.findActiveByUser(createdBy);
     let newCart: Cart | null = null;
     if (!cart) {
-      newCart = await this.cartRepository.create({ created_by: userId });
+      newCart = await this.cartRepository.create({ createdBy });
     } else {
       newCart = cart;
     }

@@ -4,6 +4,7 @@ import { Order } from "../models/order.model";
 import { AppDataSource } from "../configs/data-source.config";
 import { GetQueryParams } from "../common/types/get-query-params.type";
 import { FindResponseType } from "../common/types/http.type";
+import { CreateOrderDto } from "../dtos/order.dto";
 
 @injectable()
 export class OrderRepository {
@@ -46,7 +47,8 @@ export class OrderRepository {
     return this.repository.findOneBy({ id });
   }
 
-  async create(order: Order): Promise<Order> {
+  async create(order: CreateOrderDto): Promise<Order> {
+    console.log(order);
     return this.repository.save(this.repository.create(order));
   }
 

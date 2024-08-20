@@ -7,7 +7,7 @@ export function attachUserId(
   next: NextFunction
 ) {
   if (req.user && req.user.id) {
-    req.body.userId = req.user.id;
+    req.body.createdBy = req.user.id;
   }
   next();
 }
