@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { InversifyExpressServer } from "inversify-express-utils";
 import { AppDataSource } from "./configs/data-source.config";
+import cors from "cors";
 import * as express from "express";
 import { Request, Response, NextFunction } from "express";
 import { PORT } from "./environment/variable.env";
@@ -13,6 +14,13 @@ const server = new InversifyExpressServer(container);
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 server.setConfig((app) => {
+  app.use(
+    cors({
+      origin: "*", // Allow all origins
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    })
+  );
   app.use(express.json());
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 });
