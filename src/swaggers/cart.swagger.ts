@@ -79,15 +79,20 @@ export const cartSwagger = {
         },
       },
     },
-    "/carts/{id}": {
+    "/carts/detail": {
       get: {
         tags: ["Cart"],
         summary: "Get a cart by ID",
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
         parameters: [
           {
             name: "id",
-            in: "path",
-            required: true,
+            in: "query",
+            required: false,
             schema: {
               type: "integer",
             },

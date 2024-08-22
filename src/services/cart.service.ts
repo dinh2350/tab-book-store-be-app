@@ -27,7 +27,7 @@ export class CartService {
     return this.cartRepository.findById(id);
   }
 
-  async findByIdIncludeCartItem(id: number) {
+  async findByIdIncludeCartItem(id?: number) {
     return this.cartRepository.findByIdIncludeCartItem(id);
   }
 

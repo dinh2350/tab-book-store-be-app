@@ -3,26 +3,28 @@ import {
   controller,
   httpGet,
   httpPost,
+  queryParam,
   requestBody,
-  requestParam,
+  response,
 } from "inversify-express-utils";
 import { authenticate } from "../middlewares/authenticate.middleware";
 import { CartService } from "../services/cart.service";
 import { AddBookToCartDto } from "../dtos/cart.dto";
 import { attachUserId } from "../middlewares/attach-user-id.middleware";
+import { parseIntUtil } from "../utils/parse-int.util";
 
 @controller("/carts")
 export class CartController {
   constructor(private cartService: CartService) {}
 
-  @httpGet("/:id")
+  @httpGet("/detail")
   public async getCartById(
-    @requestParam("id") id: number,
-    req: Request,
-    res: Response
+    @response() res: Response,
+    @queryParam("id") id?: string
   ): Promise<void> {
     try {
-      const cart = await this.cartService.findByIdIncludeCartItem(id);
+      const cartId = parseIntUtil(id);
+      const cart = await this.cartService.findByIdIncludeCartItem(cartId);
       if (cart) {
         res.json(cart);
       } else {
