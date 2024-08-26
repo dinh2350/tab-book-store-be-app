@@ -46,11 +46,19 @@ export class CartRepository {
     return this.repository.findOneBy({ id });
   }
 
-  async findByIdIncludeCartItem(id?: number) {
-    return this.repository.findOne({
-      where: { id, status: STATUS_ENUM.ACTIVE },
-      relations: ["cartItems", "cartItems.book"],
-    });
+  async findByIdIncludeCartItem(userId: number, id?: number) {
+    const queryBuilder = this.repository
+      .createQueryBuilder("cart")
+      .leftJoinAndSelect("cart.cartItems", "cartItem") // Join with cartItems
+      .leftJoinAndSelect("cartItem.book", "book");
+
+    if (id) {
+      queryBuilder.andWhere("cart.id = :id", { id });
+    }
+    return queryBuilder
+      .andWhere("cart.createdBy = :userId", { userId })
+      .andWhere("cart.status = :status", { status: STATUS_ENUM.ACTIVE })
+      .getOne();
   }
 
   async findActiveByUser(createdBy: number) {

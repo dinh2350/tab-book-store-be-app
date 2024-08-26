@@ -5,7 +5,7 @@ import { CartItem } from "./cart-item.model";
 
 @Entity({ name: "books" })
 export class Book extends BaseModel {
-  @Column()
+  @Column({ length: 30, type: "varchar" })
   title!: string;
 
   @Column({ nullable: true })

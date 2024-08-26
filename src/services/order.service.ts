@@ -33,7 +33,10 @@ export class OrderService {
 
   async checkout({ cartId, createdBy }: CheckoutCartDto) {
     // find cart and check is exist -> cart-item ( bookId , quantity )
-    const cart = await this.cartService.findByIdIncludeCartItem(cartId);
+    const cart = await this.cartService.findByIdIncludeCartItem(
+      createdBy,
+      cartId
+    );
     if (!cart) throw new Error("Cart not found");
     if (cart.cartItems && cart.cartItems.length <= 0)
       throw new Error("Cart item is not empty");

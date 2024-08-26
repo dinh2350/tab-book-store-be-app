@@ -27,8 +27,8 @@ export class CartService {
     return this.cartRepository.findById(id);
   }
 
-  async findByIdIncludeCartItem(id?: number) {
-    return this.cartRepository.findByIdIncludeCartItem(id);
+  async findByIdIncludeCartItem(userId: number, id?: number) {
+    return this.cartRepository.findByIdIncludeCartItem(userId, id);
   }
 
   async createCart(cart: CreateCartDto): Promise<Cart> {

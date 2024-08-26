@@ -40,7 +40,7 @@ export class BookController {
     };
     try {
       const books = await this.bookService.getAllBooks(queryParam);
-      res.json(books);
+      res.status(200).json(books);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch books" });
     }
